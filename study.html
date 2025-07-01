@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Study Protocol: Passive Sensing & Privacy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutral Harmony -->
+    <!-- Application Structure Plan: A single-page, top-to-bottom narrative structure that guides the user through the three main phases of the research study (Onboarding, Collection, Curation). This linear flow is the most intuitive way to explain a protocol. Interactive diagrams and click-to-reveal details are used to manage complexity, allowing users to explore details without being overwhelmed. Navigation links provide direct access to each phase. -->
+    <!-- Visualization & Content Choices: The application visualizes the study's *process*, not results. Key choices include: 1) A CSS-based interactive flowchart to explain the 'Locked-Box' data flow (Goal: Explain Process). 2) Icon-based cards for the 'Privacy Contract' and Sensor Triggers (Goal: Organize & Inform), which reveal details on click. 3) A simple Chart.js bar chart to illustrate student time-use data mentioned in the rationale (Goal: Compare). 4) All interactions are handled with vanilla JS to toggle content visibility. This approach makes the complex protocol accessible and engaging. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #383733;
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            position: relative;
+            padding-bottom: 4px;
+        }
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #A49383;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover:after, .nav-link.active:after {
+            width: 100%;
+        }
+        .section-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E5E2DC;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .interactive-card {
+            cursor: pointer;
+        }
+        .detail-content {
+            display: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease-in-out;
+        }
+        .detail-content.show {
+            display: block;
+            max-height: 500px;
+        }
+        .flow-step {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .flow-step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-[#F8F7F4]/80 backdrop-blur-sm sticky top-0 z-50 border-b border-[#E5E2DC]">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-[#574C41]">Privacy-First Research Protocol</h1>
+            <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-[#574C41]">
+                <a href="#phase1" class="nav-link">Phase 1: Onboarding</a>
+                <a href="#phase2" class="nav-link">Phase 2: Collection</a>
+                <a href="#phase3" class="nav-link">Phase 3: Curation</a>
+                <a href="#principles" class="nav-link">Core Principles</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-[#574C41] focus:outline-none">
+                    <span class="w-6 h-0.5 bg-current block my-1"></span>
+                    <span class="w-6 h-0.5 bg-current block my-1"></span>
+                    <span class="w-6 h-0.5 bg-current block my-1"></span>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-[#F8F7F4] border-t border-[#E5E2DC]">
+            <a href="#phase1" class="block text-center py-3 px-4 text-sm text-[#574C41] hover:bg-[#E5E2DC]">Phase 1: Onboarding</a>
+            <a href="#phase2" class="block text-center py-3 px-4 text-sm text-[#574C41] hover:bg-[#E5E2DC]">Phase 2: Collection</a>
+            <a href="#phase3" class="block text-center py-3 px-4 text-sm text-[#574C41] hover:bg-[#E5E2DC]">Phase 3: Curation</a>
+            <a href="#principles" class="block text-center py-3 px-4 text-sm text-[#574C41] hover:bg-[#E5E2DC]">Core Principles</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section class="text-center mb-20">
+            <h2 class="text-4xl md:text-5xl font-bold text-[#383733] mb-4">Capturing Daily Life, Respectfully</h2>
+            <p class="text-lg text-[#574C41] max-w-3xl mx-auto">
+                This interactive application breaks down a week-long study designed to understand personal interests through passive audio capture. Explore the three phases of our participant-centric protocol, built from the ground up on a foundation of trust, agency, and an uncompromising commitment to privacy.
+            </p>
+        </section>
+
+        <!-- Phase 1 -->
+        <section id="phase1" class="mb-20 scroll-mt-24">
+            <div class="text-center mb-12">
+                <span class="text-sm font-semibold text-[#A49383]">PHASE 1</span>
+                <h3 class="text-3xl font-bold mt-2">Onboarding & The Privacy Contract</h3>
+                <p class="mt-4 text-[#574C41] max-w-2xl mx-auto">
+                    The study begins with an in-person session designed to establish trust and transparency. Participants are not just subjects; they are collaborators who are given full control from the very start. This phase sets the stage for the entire week.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="section-card p-6 rounded-xl">
+                    <h4 class="font-bold text-lg mb-2">Welcome & Introduction</h4>
+                    <p class="text-sm text-[#574C41]">Participants are welcomed and given a clear overview of the study's goals. The voluntary nature is emphasized, ensuring they feel comfortable and informed.</p>
+                </div>
+                
+                <div id="privacy-contract-card" class="section-card p-6 rounded-xl bg-[#E5E2DC]/30 interactive-card">
+                    <div class="flex justify-between items-start">
+                        <h4 class="font-bold text-lg mb-2">The "Privacy Contract"</h4>
+                        <span class="text-xs font-bold text-[#A49383]">▼ Click to Expand</span>
+                    </div>
+                    <p class="text-sm text-[#574C41]">More than just a consent form, this is a formal commitment to the participant's privacy, outlining four key promises.</p>
+                    <div id="privacy-contract-details" class="detail-content mt-4 border-t border-[#A49383]/30 pt-4">
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start">
+                                <span class="text-lg mr-3">✈️</span>
+                                <div><strong class="block">100% Offline Device:</strong> The smartwatch operates in airplane mode all week. Participants verify this themselves.</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-lg mr-3">👤</span>
+                                <div><strong class="block">Participant-Only Review:</strong> Only the participant will ever review the complete raw data. The researcher never has access.</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-lg mr-3">🗑️</span>
+                                <div><strong class="block">Deletion by Default:</strong> All data is marked for deletion. Nothing is shared unless explicitly approved by the participant.</div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-lg mr-3">✅</span>
+                                <div><strong class="block">Verifiable Deletion:</strong> The participant personally initiates the permanent deletion of their raw data at the end of the study.</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="section-card p-6 rounded-xl">
+                    <h4 class="font-bold text-lg mb-2">Setup & Baseline</h4>
+                    <p class="text-sm text-[#574C41]">Participants are given the smartwatch and baseline questionnaires are administered to understand their initial attitudes towards technology and privacy.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 2 -->
+        <section id="phase2" class="mb-20 scroll-mt-24">
+            <div class="text-center mb-12">
+                <span class="text-sm font-semibold text-[#A49383]">PHASE 2</span>
+                <h3 class="text-3xl font-bold mt-2">Data Collection in the Wild</h3>
+                 <p class="mt-4 text-[#574C41] max-w-2xl mx-auto">
+                    For one week, participants wear the smartwatch as they go about their daily lives. The system is designed to be unobtrusive, passively capturing potential "interest moments" based on intelligent sensor triggers, not constant surveillance.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div class="space-y-6">
+                    <div class="section-card p-6 rounded-xl">
+                        <h4 class="font-bold text-lg mb-2">Passive & Unobtrusive</h4>
+                        <p class="text-sm text-[#574C41]">The system works in the background. Subtle haptic cues (vibrations) provide awareness of recordings without being socially intrusive. An optional, temporary prompt on the watch allows for immediate discarding of a sensitive snippet, giving participants real-time agency.</p>
+                    </div>
+                    <div id="triggers-card" class="section-card p-6 rounded-xl interactive-card">
+                        <div class="flex justify-between items-start">
+                           <h4 class="font-bold text-lg mb-2">Intelligent Sensor Triggers</h4>
+                           <span class="text-xs font-bold text-[#A49383]">▼ Click to Learn More</span>
+                        </div>
+                        <p class="text-sm text-[#574C41]">Recording is not random. It's activated by specific situations that are likely to contain engaged, interest-relevant conversation.</p>
+                        <div id="triggers-details" class="detail-content mt-4 border-t border-[#A49383]/30 pt-4 space-y-4">
+                            <div>
+                                <strong class="text-sm block">1. Context Changes</strong>
+                                <p class="text-xs text-[#574C41]">Sensors detect shifts in location or activity (e.g., leaving a dorm, sitting down in a cafe) which often precede new social interactions.</p>
+                            </div>
+                            <div>
+                                <strong class="text-sm block">2. Gesticulation & Arousal</strong>
+                                <p class="text-xs text-[#574C41]">Detects animated hand movements and elevated heart rate—strong indicators of engaged, emotionally salient conversation.</p>
+                            </div>
+                            <div>
+                                <strong class="text-sm block">3. Focused Individual Activity</strong>
+                                <p class="text-xs text-[#574C41]">Captures moments of "thinking aloud" during focused tasks (e.g., studying, hobbies), offering a window into cognitive engagement.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-card p-6 rounded-xl">
+                     <h4 class="font-bold text-lg mb-2 text-center">Context: Student Time Use</h4>
+                     <p class="text-sm text-center text-[#574C41] mb-4">The study targets college students because their daily lives are rich with the social interactions where interests are expressed. This chart, based on American Time Use Survey data, illustrates the significant time young adults dedicate to social activities.</p>
+                     <div class="chart-container">
+                        <canvas id="timeUseChart"></canvas>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 3 -->
+        <section id="phase3" class="mb-20 scroll-mt-24">
+            <div class="text-center mb-12">
+                <span class="text-sm font-semibold text-[#A49383]">PHASE 3</span>
+                <h3 class="text-3xl font-bold mt-2">The "Locked-Box" Curation Session</h3>
+                <p class="mt-4 text-[#574C41] max-w-2xl mx-auto">
+                    The final session is where the privacy promises are fulfilled. Participants enter a secure, offline environment to review their data and become the sole curators of what is shared with the research team.
+                </p>
+            </div>
+
+            <div class="section-card p-8 rounded-xl">
+                <h4 class="font-bold text-xl mb-6 text-center">The Participant-Controlled Data Flow</h4>
+                <div class="relative w-full">
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-start text-center">
+                        <div class="flow-step p-4">
+                            <div class="text-4xl mb-2">⌚</div>
+                            <h5 class="font-bold">1. Collection</h5>
+                            <p class="text-xs text-[#574C41]">Encrypted data is stored locally on the offline watch.</p>
+                        </div>
+                        <div class="flow-step p-4" style="transition-delay: 0.2s;">
+                            <div class="text-4xl mb-2">→</div>
+                            <h5 class="font-bold">2. Transfer</h5>
+                            <p class="text-xs text-[#574C41]">Participant physically connects watch to transfer data.</p>
+                        </div>
+                        <div class="flow-step p-4" style="transition-delay: 0.4s;">
+                            <div class="text-4xl mb-2">💻</div>
+                            <h5 class="font-bold">3. Curation</h5>
+                            <p class="text-xs text-[#574C41]">In private, on an offline station, participant reviews transcripts and approves snippets to share.</p>
+                        </div>
+                        <div class="flow-step p-4" style="transition-delay: 0.6s;">
+                             <div class="text-4xl mb-2">→</div>
+                            <h5 class="font-bold">4. Deletion</h5>
+                            <p class="text-xs text-[#574C41]">Participant initiates permanent deletion of all raw data.</p>
+                        </div>
+                        <div class="flow-step p-4" style="transition-delay: 0.8s;">
+                            <div class="text-4xl mb-2">📊</div>
+                            <h5 class="font-bold">5. Analysis</h5>
+                            <p class="text-xs text-[#574C41]">Researcher only ever sees the small, anonymized text package approved by the participant.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Principles Section -->
+        <section id="principles" class="scroll-mt-24">
+            <div class="text-center mb-12">
+                 <span class="text-sm font-semibold text-[#A49383]">CONCLUSION</span>
+                <h3 class="text-3xl font-bold mt-2">Core Principles of the Protocol</h3>
+                <p class="mt-4 text-[#574C41] max-w-2xl mx-auto">
+                   This entire methodology is built on three pillars that work together to create an ethical, effective, and user-centric research process.
+                </p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8 text-center">
+                 <div class="section-card p-6 rounded-xl">
+                    <div class="text-3xl mb-3">🛡️</div>
+                    <h4 class="font-bold text-lg mb-2">Absolute Privacy Control</h4>
+                    <p class="text-sm text-[#574C41]">The protocol inverts the typical data collection model. By giving participants ultimate control and making deletion the default, we build a foundation of trust essential for collecting authentic data.</p>
+                </div>
+                 <div class="section-card p-6 rounded-xl">
+                    <div class="text-3xl mb-3">🧘</div>
+                    <h4 class="font-bold text-lg mb-2">Minimum Effort & Burden</h4>
+                    <p class="text-sm text-[#574C41]">From passive collection to AI-assisted text-first review, the process is designed to be as seamless and low-effort as possible, respecting the participant's time and cognitive energy.</p>
+                </div>
+                 <div class="section-card p-6 rounded-xl">
+                    <div class="text-3xl mb-3">🤝</div>
+                    <h4 class="font-bold text-lg mb-2">Participant as Collaborator</h4>
+                    <p class="text-sm text-[#574C41]">Participants are empowered agents in the research process. Their active role in curation and final deletion makes them partners in the responsible creation of knowledge.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-[#E5E2DC] mt-20">
+        <div class="container mx-auto px-6 py-6 text-center text-sm text-[#A49383]">
+            <p>Interactive Protocol Visualization | 2024</p>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Menu
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+            });
+
+            // Interactive Cards
+            const privacyCard = document.getElementById('privacy-contract-card');
+            const privacyDetails = document.getElementById('privacy-contract-details');
+            privacyCard.addEventListener('click', () => {
+                privacyDetails.classList.toggle('show');
+            });
+
+            const triggersCard = document.getElementById('triggers-card');
+            const triggersDetails = document.getElementById('triggers-details');
+            triggersCard.addEventListener('click', () => {
+                triggersDetails.classList.toggle('show');
+            });
+
+            // Nav link active state on scroll
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('header nav a');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= sectionTop - 120) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // Animation on scroll for flow steps
+            const flowSteps = document.querySelectorAll('.flow-step');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.5 });
+            flowSteps.forEach(step => {
+                observer.observe(step);
+            });
+
+            // Chart.js Time Use Chart
+            const ctx = document.getElementById('timeUseChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Education', 'Leisure & Social', 'Work', 'Other'],
+                    datasets: [{
+                        label: 'Avg. Hours per Weekday (Ages 15-24)',
+                        data: [3.5, 5.5, 4.0, 11],
+                        backgroundColor: [
+                            'rgba(164, 147, 131, 0.6)',
+                            'rgba(87, 76, 65, 0.6)',
+                            'rgba(196, 183, 171, 0.6)',
+                            'rgba(229, 226, 220, 0.6)'
+                        ],
+                        borderColor: [
+                            'rgba(164, 147, 131, 1)',
+                            'rgba(87, 76, 65, 1)',
+                            'rgba(196, 183, 171, 1)',
+                            'rgba(229, 226, 220, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: '#383733',
+                            titleFont: { weight: 'bold' },
+                            bodyFont: { size: 12 },
+                            padding: 10,
+                            cornerRadius: 4
+                        }
+                    },
+                    scales: {
+                        x: {
+                           beginAtZero: true,
+                           grid: {
+                             color: '#E5E2DC'
+                           },
+                           ticks: {
+                               color: '#574C41'
+                           }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            },
+                           ticks: {
+                               color: '#574C41'
+                           }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

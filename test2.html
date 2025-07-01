@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curation Station Wireframe v2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f7f9fc;
+        }
+        .card {
+            page-break-inside: avoid;
+            break-inside: avoid;
+            transition: all 0.2s ease-in-out;
+            border: 1px solid #e0e0e0;
+        }
+        .card-content {
+            transition: max-height 0.5s ease-in-out, padding 0.5s ease-in-out;
+        }
+        .keep-grid {
+            column-count: 1;
+            column-gap: 1rem;
+        }
+        @media (min-width: 640px) { .keep-grid { column-count: 2; } }
+        @media (min-width: 1024px) { .keep-grid { column-count: 3; } }
+        @media (min-width: 1280px) { .keep-grid { column-count: 4; } }
+        
+        .fade-in { animation: fadeIn 0.5s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .audio-player {
+            display: flex;
+            align-items: center;
+            background-color: #f0f0f0;
+            border-radius: 9999px;
+            padding: 4px 8px;
+            width: 100%;
+        }
+        .play-pause-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #4a5568;
+            padding: 4px;
+        }
+        .seek-bar-container {
+            flex-grow: 1;
+            padding: 0 8px;
+        }
+        .seek-bar {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            background: #cbd5e0;
+            outline: none;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        .seek-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            background: #4299e1;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .time-display {
+            font-size: 0.75rem;
+            color: #4a5568;
+            min-width: 70px;
+            text-align: right;
+        }
+        audio {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div id="app" class="p-4 sm:p-6 lg:p-8">
+        <!-- Header -->
+        <header class="flex flex-col sm:flex-row justify-between items-center mb-8 pb-4 border-b border-gray-300 bg-white sticky top-0 z-40 p-4 rounded-b-lg shadow-sm">
+            <div class="text-center sm:text-left">
+                <h1 class="text-2xl font-bold text-gray-800">My Private Curation Station</h1>
+                <p class="text-sm text-gray-600">You are the only person who will see this screen. Click a card to expand and review.</p>
+            </div>
+            <div class="flex items-center space-x-4 mt-4 sm:mt-0">
+                 <div class="flex items-center space-x-2 bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>100% Offline & Secure</span>
+                </div>
+                <button id="finishCurationBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105">
+                    Finish Curation...
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <main class="keep-grid">
+            
+            <!-- Card 1 -->
+            <div id="card-1" class="card bg-white rounded-lg shadow-sm p-4 mb-4 hover:shadow-lg">
+                <div class="cursor-pointer" onclick="toggleCard('card-1')">
+                    <h3 class="font-bold text-lg text-gray-800">Coffee Shop Chat</h3>
+                    <p class="text-gray-600 text-sm mt-1 summary">Group of friends discussing dating and relationships. One person complains about a recent date, while others share dating advice and personal anecdotes, including a strange dream.</p>
+                </div>
+                <div class="card-content max-h-0 overflow-hidden pt-0">
+                    <audio id="audio-1" src="https://cdn.pixabay.com/download/audio/2022/08/25/audio_5712821419.mp3" preload="metadata"></audio>
+                    <div class="audio-player mt-4">
+                        <button class="play-pause-btn" onclick="togglePlay(event, 'card-1')"><i class="fas fa-play"></i></button>
+                        <div class="seek-bar-container"><input type="range" value="0" class="seek-bar"></div>
+                        <div class="time-display">0:00 / 0:00</div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-gray-700 mb-2">Full Transcript:</h4>
+                        <div class="text-sm text-gray-700 space-y-2 transcript bg-gray-50 p-2 rounded max-h-48 overflow-y-auto">
+                            <p>"There's nothing to tell! He's just some guy I work with!"</p>
+                            <p>"C'mon, you're going out with the guy! There's gotta be something wrong with him!"</p>
+                            <p>"All right, be nice. So does he have a hump? A hump and a hairpiece?"</p>
+                            <p>"Wait, does he eat chalk? Just, 'cause, I don't want her to go through what I went through with Carl- oh!"</p>
+                            <p>"Okay, everybody relax. This is not even a date. It's just two people going out to dinner and- not having sex."</p>
+                            <p>"Sounds like a date to me."</p>
+                            <p>"Alright, so I'm back in high school, I'm standing in the middle of the cafeteria, and I realize I am totally naked."</p>
+                            <p>"Oh, yeah. Had that dream."</p>
+                            <p>"Then I look down, and I realize there's a phone... there."</p>
+                            <p>"Instead of...?"</p>
+                            <p>"That's right."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-actions flex justify-end space-x-2 mt-4">
+                    <button class="share-btn bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-1', 'share')">Mark for Sharing</button>
+                    <button class="delete-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-1', 'delete')">Delete Forever</button>
+                </div>
+            </div>
+            
+            <!-- Card 2 -->
+            <div id="card-2" class="card bg-white rounded-lg shadow-sm p-4 mb-4 hover:shadow-lg">
+                <div class="cursor-pointer" onclick="toggleCard('card-2')">
+                    <h3 class="font-bold text-lg text-gray-800">Weekend Planning</h3>
+                    <p class="text-gray-600 text-sm mt-1 summary">Planning a weekend hiking trip. Discussion about which trail to take, what food to bring, gear, and excitement about the weather forecast.</p>
+                </div>
+                <div class="card-content max-h-0 overflow-hidden pt-0">
+                    <audio id="audio-2" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_e69798a853.mp3" preload="metadata"></audio>
+                    <div class="audio-player mt-4">
+                        <button class="play-pause-btn" onclick="togglePlay(event, 'card-2')"><i class="fas fa-play"></i></button>
+                        <div class="seek-bar-container"><input type="range" value="0" class="seek-bar"></div>
+                        <div class="time-display">0:00 / 0:00</div>
+                    </div>
+                     <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-gray-700 mb-2">Full Transcript:</h4>
+                        <div class="text-sm text-gray-700 space-y-2 transcript bg-gray-50 p-2 rounded max-h-48 overflow-y-auto">
+                           <p>"So, are we still on for the hike this weekend? The weather is supposed to be amazing."</p>
+                           <p>"Definitely! I was thinking we should do the waterfall trail. It’s a bit longer but totally worth it."</p>
+                           <p>"Oh, good call! I haven't done that one in ages. Okay, I can handle snacks. I'll bring some trail mix and those protein bars you like."</p>
+                           <p>"Perfect. I'll take care of the water and maybe some sandwiches. What time should we meet? Like 8 AM at the trailhead?"</p>
+                           <p>"8 AM sounds good. That gives us plenty of time before it gets too hot. I need to make sure my boots are still in good shape, haven't used them since last year."</p>
+                           <p>"Yeah, same. This is going to be great, I really need to get out of the city."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-actions flex justify-end space-x-2 mt-4">
+                    <button class="share-btn bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-2', 'share')">Mark for Sharing</button>
+                    <button class="delete-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-2', 'delete')">Delete Forever</button>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div id="card-3" class="card bg-white rounded-lg shadow-sm p-4 mb-4 hover:shadow-lg">
+                <div class="cursor-pointer" onclick="toggleCard('card-3')">
+                    <h3 class="font-bold text-lg text-gray-800">CS Problem Set</h3>
+                    <p class="text-gray-600 text-sm mt-1 summary">Discussing a challenging problem set for a computer science class, trying to figure out a specific algorithm's time complexity and implementation details.</p>
+                </div>
+                 <div class="card-content max-h-0 overflow-hidden pt-0">
+                    <audio id="audio-3" src="https://cdn.pixabay.com/download/audio/2022/02/07/audio_c66a422171.mp3" preload="metadata"></audio>
+                    <div class="audio-player mt-4">
+                        <button class="play-pause-btn" onclick="togglePlay(event, 'card-3')"><i class="fas fa-play"></i></button>
+                        <div class="seek-bar-container"><input type="range" value="0" class="seek-bar"></div>
+                        <div class="time-display">0:00 / 0:00</div>
+                    </div>
+                     <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-gray-700 mb-2">Full Transcript:</h4>
+                        <div class="text-sm text-gray-700 space-y-2 transcript bg-gray-50 p-2 rounded max-h-48 overflow-y-auto">
+                           <p>"I'm completely stuck on question 3. I can't figure out the time complexity for this sorting algorithm."</p>
+                           <p>"Yeah, that one's tricky. I think it might be O(n log n), but you have to use a divide and conquer approach. Did you try breaking the array down recursively?"</p>
+                           <p>"Ah, okay. I was trying to do it iteratively. That makes more sense. So the base case would be if the array has one element?"</p>
+                           <p>"Exactly. And then you merge the sorted halves. The merging part is the key to getting the complexity right."</p>
+                           <p>"Got it. Let me try whiteboarding it out... this is way harder than what we did in lecture."</p>
+                        </div>
+                    </div>
+                 </div>
+                <div class="card-actions flex justify-end space-x-2 mt-4">
+                    <button class="share-btn bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-3', 'share')">Mark for Sharing</button>
+                    <button class="delete-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-3', 'delete')">Delete Forever</button>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div id="card-4" class="card bg-white rounded-lg shadow-sm p-4 mb-4 hover:shadow-lg">
+                <div class="cursor-pointer" onclick="toggleCard('card-4')">
+                    <h3 class="font-bold text-lg text-gray-800">Upset Friend & Aura</h3>
+                    <p class="text-gray-600 text-sm mt-1 summary">A friend is upset about his wife leaving him. Another friend tries to 'cleanse his aura', which he rejects. He expresses his unhappiness about the situation and being left.</p>
+                </div>
+                <div class="card-content max-h-0 overflow-hidden pt-0">
+                    <audio id="audio-4" src="https://cdn.pixabay.com/download/audio/2022/08/25/audio_5712821419.mp3" preload="metadata"></audio>
+                    <div class="audio-player mt-4">
+                        <button class="play-pause-btn" onclick="togglePlay(event, 'card-4')"><i class="fas fa-play"></i></button>
+                        <div class="seek-bar-container"><input type="range" value="0" class="seek-bar"></div>
+                        <div class="time-display">0:00 / 0:00</div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-gray-700 mb-2">Full Transcript:</h4>
+                        <div class="text-sm text-gray-700 space-y-2 transcript bg-gray-50 p-2 rounded max-h-48 overflow-y-auto">
+                            <p>"(mortified) Hi."</p>
+                            <p>"This guy says hello, I wanna kill myself."</p>
+                            <p>"Are you okay, sweetie?"</p>
+                            <p>"I just feel like someone reached down my throat, grabbed my small intestine, pulled it out of my mouth and tied it around my neck..."</p>
+                            <p>"Cookie?"</p>
+                            <p>"Ooh! Oh! (sound of someone plucking at the air)"</p>
+                            <p>"No, no don't! Stop cleansing my aura! No, just leave my aura alone, okay?"</p>
+                             <p>"Fine! Be murky!"</p>
+                             <p>"I'll be fine, alright? Really, everyone. I hope she'll be very happy."</p>
+                             <p>"No you don't."</p>
+                             <p>"No I don't, to hell with her, she left me!"</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-actions flex justify-end space-x-2 mt-4">
+                    <button class="share-btn bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-4', 'share')">Mark for Sharing</button>
+                    <button class="delete-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-4', 'delete')">Delete Forever</button>
+                </div>
+            </div>
+            
+            <!-- Card 5 -->
+            <div id="card-5" class="card bg-white rounded-lg shadow-sm p-4 mb-4 hover:shadow-lg">
+                <div class="cursor-pointer" onclick="toggleCard('card-5')">
+                    <h3 class="font-bold text-lg text-gray-800">Phone Call Home</h3>
+                    <p class="text-gray-600 text-sm mt-1 summary">A brief, personal phone call with a family member about scheduling a visit home for an upcoming holiday and a quick chat about classes.</p>
+                </div>
+                <div class="card-content max-h-0 overflow-hidden pt-0">
+                    <audio id="audio-5" src="https://cdn.pixabay.com/download/audio/2021/10/08/audio_b28668d92e.mp3" preload="metadata"></audio>
+                    <div class="audio-player mt-4">
+                        <button class="play-pause-btn" onclick="togglePlay(event, 'card-5')"><i class="fas fa-play"></i></button>
+                        <div class="seek-bar-container"><input type="range" value="0" class="seek-bar"></div>
+                        <div class="time-display">0:00 / 0:00</div>
+                    </div>
+                     <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-gray-700 mb-2">Full Transcript:</h4>
+                        <div class="text-sm text-gray-700 space-y-2 transcript bg-gray-50 p-2 rounded max-h-48 overflow-y-auto">
+                           <p>"Hi Mom. Yeah, I'm just leaving the library. I was thinking of taking the train that gets in around 7 PM on Friday, would that work?"</p>
+                           <p>"That's perfect, honey. I can pick you up from the station. We're so excited to see you! How are classes going?"</p>
+                           <p>"They're good, pretty busy. Midterms are coming up soon so I'm studying a lot. But it's going well."</p>
+                           <p>"Okay, well don't work too hard. We'll see you Friday!"</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-actions flex justify-end space-x-2 mt-4">
+                    <button class="share-btn bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-5', 'share')">Mark for Sharing</button>
+                    <button class="delete-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-5', 'delete')">Delete Forever</button>
+                </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div id="card-6" class="card bg-white rounded-lg shadow-sm p-4 mb-4 hover:shadow-lg">
+                <div class="cursor-pointer" onclick="toggleCard('card-6')">
+                    <h3 class="font-bold text-lg text-gray-800">Wedding Escape</h3>
+                    <p class="text-gray-600 text-sm mt-1 summary">A friend arrives in a wet wedding dress, explaining why she left her fiancé at the altar. She talks about being more turned on by a gravy boat than her fiancé, and feeling lost.</p>
+                </div>
+                 <div class="card-content max-h-0 overflow-hidden pt-0">
+                    <audio id="audio-6" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_e69798a853.mp3" preload="metadata"></audio>
+                    <div class="audio-player mt-4">
+                        <button class="play-pause-btn" onclick="togglePlay(event, 'card-6')"><i class="fas fa-play"></i></button>
+                        <div class="seek-bar-container"><input type="range" value="0" class="seek-bar"></div>
+                        <div class="time-display">0:00 / 0:00</div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-gray-700 mb-2">Full Transcript:</h4>
+                        <div class="text-sm text-gray-700 space-y-2 transcript bg-gray-50 p-2 rounded max-h-48 overflow-y-auto">
+                            <p>"Oh God... well, it started about a half hour before the wedding. I was in the room where we were keeping all the presents, and I was looking at this gravy boat. This really gorgeous Lamauge gravy boat. When all of a sudden... I realized that I was more turned on by this gravy boat than by Barry! And then I got really freaked out, and that's when it hit me: how much Barry looks like Mr. Potato Head. Y'know, I mean, I always knew he looked familiar, but... Anyway, I just had to get out of there, and I started wondering 'Why am I doing this, and who am I doing this for?'. So anyway I just didn't know where to go, and I know that you and I have kinda drifted apart, but you're the only person I knew who lived here in the city."</p>
+                            <p>"Who wasn't invited to the wedding."</p>
+                            <p>"Ooh, I was kinda hoping that wouldn't be an issue..."</p>
+                        </div>
+                    </div>
+                 </div>
+                <div class="card-actions flex justify-end space-x-2 mt-4">
+                    <button class="share-btn bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-6', 'share')">Mark for Sharing</button>
+                    <button class="delete-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-6', 'delete')">Delete Forever</button>
+                </div>
+            </div>
+
+            <!-- Card 7 -->
+            <div id="card-7" class="card bg-white rounded-lg shadow-sm p-4 mb-4 hover:shadow-lg">
+                <div class="cursor-pointer" onclick="toggleCard('card-7')">
+                    <h3 class="font-bold text-lg text-gray-800">Movie Fan Theories</h3>
+                    <p class="text-gray-600 text-sm mt-1 summary">Enthusiastic discussion about a new movie release, speculating on plot points, fan theories, and post-credit scenes with a friend.</p>
+                </div>
+                 <div class="card-content max-h-0 overflow-hidden pt-0">
+                    <audio id="audio-7" src="https://cdn.pixabay.com/download/audio/2022/08/25/audio_5712821419.mp3" preload="metadata"></audio>
+                    <div class="audio-player mt-4">
+                        <button class="play-pause-btn" onclick="togglePlay(event, 'card-7')"><i class="fas fa-play"></i></button>
+                        <div class="seek-bar-container"><input type="range" value="0" class="seek-bar"></div>
+                        <div class="time-display">0:00 / 0:00</div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-gray-700 mb-2">Full Transcript:</h4>
+                        <div class="text-sm text-gray-700 space-y-2 transcript bg-gray-50 p-2 rounded max-h-48 overflow-y-auto">
+                           <p>"Did you see the final trailer for 'Galaxy's Edge 4'? It looks insane!"</p>
+                           <p>"I know! I have a theory that the main villain is actually the hero's long-lost sibling. You can see it in the way they look at each other in that one shot."</p>
+                           <p>"Whoa, that would be a crazy twist! We have to go opening night. I bet the post-credit scene is going to set up the next big villain."</p>
+                           <p>"Totally. I'm re-watching the third one tonight to catch any clues I missed. I'm so hyped."</p>
+                        </div>
+                    </div>
+                 </div>
+                <div class="card-actions flex justify-end space-x-2 mt-4">
+                    <button class="share-btn bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-7', 'share')">Mark for Sharing</button>
+                    <button class="delete-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-7', 'delete')">Delete Forever</button>
+                </div>
+            </div>
+
+            <!-- Card 8 -->
+            <div id="card-8" class="card bg-white rounded-lg shadow-sm p-4 mb-4 hover:shadow-lg">
+                <div class="cursor-pointer" onclick="toggleCard('card-8')">
+                    <h3 class="font-bold text-lg text-gray-800">Lunch Plans</h3>
+                    <p class="text-gray-600 text-sm mt-1 summary">Trying to decide where to get lunch, debating between getting pizza or tacos from a food truck, and considering the cost.</p>
+                </div>
+                 <div class="card-content max-h-0 overflow-hidden pt-0">
+                    <audio id="audio-8" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_e69798a853.mp3" preload="metadata"></audio>
+                    <div class="audio-player mt-4">
+                        <button class="play-pause-btn" onclick="togglePlay(event, 'card-8')"><i class="fas fa-play"></i></button>
+                        <div class="seek-bar-container"><input type="range" value="0" class="seek-bar"></div>
+                        <div class="time-display">0:00 / 0:00</div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-gray-700 mb-2">Full Transcript:</h4>
+                        <div class="text-sm text-gray-700 space-y-2 transcript bg-gray-50 p-2 rounded max-h-48 overflow-y-auto">
+                           <p>"I'm starving. Pizza today?"</p>
+                           <p>"Ugh, I had pizza yesterday. What about that new taco truck by the library? People say it's amazing."</p>
+                           <p>"Oh yeah? Is it expensive though? I'm trying to save some money this week."</p>
+                           <p>"I think it's like three bucks a taco. So probably cheaper than a whole pizza slice. Let's go for it."</p>
+                           <p>"Okay, you've convinced me. Tacos it is."</p>
+                        </div>
+                    </div>
+                 </div>
+                <div class="card-actions flex justify-end space-x-2 mt-4">
+                    <button class="share-btn bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-8', 'share')">Mark for Sharing</button>
+                    <button class="delete-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-8', 'delete')">Delete Forever</button>
+                </div>
+            </div>
+
+            <!-- Card 9 -->
+            <div id="card-9" class="card bg-white rounded-lg shadow-sm p-4 mb-4 hover:shadow-lg">
+                <div class="cursor-pointer" onclick="toggleCard('card-9')">
+                    <h3 class="font-bold text-lg text-gray-800">Part-Time Job Vent</h3>
+                    <p class="text-gray-600 text-sm mt-1 summary">Venting about a frustrating shift at a part-time job in a coffee shop, dealing with a rude customer and a long line.</p>
+                </div>
+                 <div class="card-content max-h-0 overflow-hidden pt-0">
+                    <audio id="audio-9" src="https://cdn.pixabay.com/download/audio/2022/02/07/audio_c66a422171.mp3" preload="metadata"></audio>
+                    <div class="audio-player mt-4">
+                        <button class="play-pause-btn" onclick="togglePlay(event, 'card-9')"><i class="fas fa-play"></i></button>
+                        <div class="seek-bar-container"><input type="range" value="0" class="seek-bar"></div>
+                        <div class="time-display">0:00 / 0:00</div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-gray-700 mb-2">Full Transcript:</h4>
+                        <div class="text-sm text-gray-700 space-y-2 transcript bg-gray-50 p-2 rounded max-h-48 overflow-y-auto">
+                           <p>"Longest shift ever. I am so tired."</p>
+                           <p>"What happened?"</p>
+                           <p>"We had the morning rush, which was insane, and then this one guy got mad because his latte wasn't hot enough, even though I just made it. He made me remake it three times."</p>
+                           <p>"No way. Some people are just impossible."</p>
+                           <p>"Tell me about it. And my manager just stood there and watched. I swear I'm going to quit."</p>
+                           <p>"You should. That place doesn't deserve you."</p>
+                        </div>
+                    </div>
+                 </div>
+                <div class="card-actions flex justify-end space-x-2 mt-4">
+                    <button class="share-btn bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-9', 'share')">Mark for Sharing</button>
+                    <button class="delete-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-9', 'delete')">Delete Forever</button>
+                </div>
+            </div>
+
+            <!-- Card 10 -->
+            <div id="card-10" class="card bg-white rounded-lg shadow-sm p-4 mb-4 hover:shadow-lg">
+                <div class="cursor-pointer" onclick="toggleCard('card-10')">
+                    <h3 class="font-bold text-lg text-gray-800">Study Group Session</h3>
+                    <p class="text-gray-600 text-sm mt-1 summary">Two students are studying for a history midterm, quizzing each other on key dates and events, and feeling overwhelmed by the amount of material.</p>
+                </div>
+                 <div class="card-content max-h-0 overflow-hidden pt-0">
+                    <audio id="audio-10" src="https://cdn.pixabay.com/download/audio/2021/10/08/audio_b28668d92e.mp3" preload="metadata"></audio>
+                    <div class="audio-player mt-4">
+                        <button class="play-pause-btn" onclick="togglePlay(event, 'card-10')"><i class="fas fa-play"></i></button>
+                        <div class="seek-bar-container"><input type="range" value="0" class="seek-bar"></div>
+                        <div class="time-display">0:00 / 0:00</div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-gray-700 mb-2">Full Transcript:</h4>
+                        <div class="text-sm text-gray-700 space-y-2 transcript bg-gray-50 p-2 rounded max-h-48 overflow-y-auto">
+                           <p>"Okay, next flashcard. What year was the Magna Carta signed?"</p>
+                           <p>"Uhhh... 1215?"</p>
+                           <p>"Yes! Nice. Okay, your turn."</p>
+                           <p>"Alright. Who was the primary author of the Declaration of Independence?"</p>
+                           <p>"Thomas Jefferson. That's an easy one."</p>
+                           <p>"Okay, smarty pants. There's just so much to remember. I don't know how I'm going to pass this midterm."</p>
+                           <p>"We just need to keep quizzing each other. We'll get through it."</p>
+                        </div>
+                    </div>
+                 </div>
+                <div class="card-actions flex justify-end space-x-2 mt-4">
+                    <button class="share-btn bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-10', 'share')">Mark for Sharing</button>
+                    <button class="delete-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-10', 'delete')">Delete Forever</button>
+                </div>
+            </div>
+
+            <!-- Card 11 -->
+            <div id="card-11" class="card bg-white rounded-lg shadow-sm p-4 mb-4 hover:shadow-lg">
+                <div class="cursor-pointer" onclick="toggleCard('card-11')">
+                    <h3 class="font-bold text-lg text-gray-800">Dorm Roommate Chat</h3>
+                    <p class="text-gray-600 text-sm mt-1 summary">A conversation between roommates about whose turn it is to take out the trash and a funny story about a package that was misdelivered.</p>
+                </div>
+                 <div class="card-content max-h-0 overflow-hidden pt-0">
+                    <audio id="audio-11" src="https://cdn.pixabay.com/download/audio/2022/08/25/audio_5712821419.mp3" preload="metadata"></audio>
+                    <div class="audio-player mt-4">
+                        <button class="play-pause-btn" onclick="togglePlay(event, 'card-11')"><i class="fas fa-play"></i></button>
+                        <div class="seek-bar-container"><input type="range" value="0" class="seek-bar"></div>
+                        <div class="time-display">0:00 / 0:00</div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-gray-700 mb-2">Full Transcript:</h4>
+                        <div class="text-sm text-gray-700 space-y-2 transcript bg-gray-50 p-2 rounded max-h-48 overflow-y-auto">
+                           <p>"Hey, the trash is overflowing. I think it's your turn."</p>
+                           <p>"Is it? I swear I took it out last. But fine, I'll get it."</p>
+                           <p>"Thanks. Oh, also, you got a package, but they delivered it to the room next door by mistake. It was a giant box of rubber chickens."</p>
+                           <p>"What? I definitely did not order rubber chickens."</p>
+                           <p>"I know, the guy in 3B was very confused. I told him it was probably for us. Should I go get it?"</p>
+                           <p>"No! Let him keep them. That's hilarious."</p>
+                        </div>
+                    </div>
+                 </div>
+                <div class="card-actions flex justify-end space-x-2 mt-4">
+                    <button class="share-btn bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-11', 'share')">Mark for Sharing</button>
+                    <button class="delete-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-11', 'delete')">Delete Forever</button>
+                </div>
+            </div>
+
+            <!-- Card 12 -->
+            <div id="card-12" class="card bg-white rounded-lg shadow-sm p-4 mb-4 hover:shadow-lg">
+                <div class="cursor-pointer" onclick="toggleCard('card-12')">
+                    <h3 class="font-bold text-lg text-gray-800">Video Game Session</h3>
+                    <p class="text-gray-600 text-sm mt-1 summary">Excited and intense chatter while playing a multiplayer online game, coordinating strategy and celebrating a victory.</p>
+                </div>
+                 <div class="card-content max-h-0 overflow-hidden pt-0">
+                    <audio id="audio-12" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_e69798a853.mp3" preload="metadata"></audio>
+                    <div class="audio-player mt-4">
+                        <button class="play-pause-btn" onclick="togglePlay(event, 'card-12')"><i class="fas fa-play"></i></button>
+                        <div class="seek-bar-container"><input type="range" value="0" class="seek-bar"></div>
+                        <div class="time-display">0:00 / 0:00</div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <h4 class="font-semibold text-gray-700 mb-2">Full Transcript:</h4>
+                        <div class="text-sm text-gray-700 space-y-2 transcript bg-gray-50 p-2 rounded max-h-48 overflow-y-auto">
+                           <p>"Okay, they're pushing mid lane, I need backup!"</p>
+                           <p>"I'm on my way! Use your ultimate, now, now, now!"</p>
+                           <p>"(Sound of button mashing) Got one! Two down! Yes!"</p>
+                           <p>"Nice! Okay, let's push their core while they're down. We can win this."</p>
+                           <p>"Go, go, go! We got this! YES! We won! That was epic."</p>
+                           <p>"Best game of the night. Let's play one more."</p>
+                        </div>
+                    </div>
+                 </div>
+                <div class="card-actions flex justify-end space-x-2 mt-4">
+                    <button class="share-btn bg-green-500 hover:bg-green-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-12', 'share')">Mark for Sharing</button>
+                    <button class="delete-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-3 rounded-lg text-sm" onclick="handleAction(event, 'card-12', 'delete')">Delete Forever</button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modal Dialog -->
+    <div id="modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden fade-in">
+        <div class="bg-white rounded-lg shadow-2xl p-8 max-w-lg w-full text-center">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Final Step: Verifiable Deletion</h2>
+            <p class="text-gray-600 mb-6">You have marked <strong id="shareCount" class="text-green-600">0 snippets</strong> for sharing. All other snippets will be deleted.</p>
+            <p class="text-gray-600 mb-8">Clicking the button below will **permanently erase all of your raw audio data** and any un-shared transcripts from this station. This action cannot be undone.</p>
+            <div class="flex justify-center space-x-4">
+                <button onclick="closeModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-6 rounded-lg">Go Back</button>
+                <button onclick="wipeData()" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded-lg">WIPE MY RAW DATA</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const cardIds = ['card-1', 'card-2', 'card-3', 'card-4', 'card-5', 'card-6', 'card-7', 'card-8', 'card-9', 'card-10', 'card-11', 'card-12'];
+        const state = {};
+        cardIds.forEach(id => {
+            state[id] = { status: 'pending' };
+        });
+
+        // Initialize all audio players
+        document.addEventListener('DOMContentLoaded', () => {
+            cardIds.forEach(cardId => {
+                const card = document.getElementById(cardId);
+                if (!card) return;
+                const audio = card.querySelector('audio');
+                const seekBar = card.querySelector('.seek-bar');
+                const timeDisplay = card.querySelector('.time-display');
+
+                // When metadata is loaded, update duration
+                audio.addEventListener('loadedmetadata', () => {
+                    timeDisplay.textContent = `0:00 / ${formatTime(audio.duration)}`;
+                    seekBar.max = audio.duration;
+                });
+
+                // Update seek bar and time as audio plays
+                audio.addEventListener('timeupdate', () => {
+                    seekBar.value = audio.currentTime;
+                    timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+                });
+
+                // Seek when user drags the bar
+                seekBar.addEventListener('input', (e) => {
+                    audio.currentTime = e.target.value;
+                });
+                
+                // Reset when audio ends
+                audio.addEventListener('ended', () => {
+                    const icon = card.querySelector('.play-pause-btn i');
+                    icon.classList.remove('fa-pause');
+                    icon.classList.add('fa-play');
+                });
+            });
+        });
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function toggleCard(cardId) {
+            const card = document.getElementById(cardId);
+            const content = card.querySelector('.card-content');
+            const isExpanded = content.style.maxHeight && content.style.maxHeight !== '0px';
+            
+            cardIds.forEach(id => {
+                const otherCard = document.getElementById(id);
+                if (!otherCard) return;
+                if (id !== cardId) {
+                    otherCard.querySelector('.card-content').style.maxHeight = '0px';
+                    otherCard.querySelector('.card-content').style.paddingTop = '0';
+                    const audio = otherCard.querySelector('audio');
+                    if(audio && !audio.paused) {
+                        audio.pause();
+                        const icon = otherCard.querySelector('.play-pause-btn i');
+                        icon.classList.remove('fa-pause');
+                        icon.classList.add('fa-play');
+                    }
+                }
+            });
+
+            if (isExpanded) {
+                content.style.maxHeight = '0px';
+                content.style.paddingTop = '0';
+            } else {
+                content.style.paddingTop = '1rem';
+                content.style.maxHeight = content.scrollHeight + 'px';
+            }
+        }
+
+        function handleAction(event, cardId, action) {
+            event.stopPropagation();
+            const card = document.getElementById(cardId);
+            state[cardId].status = action;
+            updateCardStyle(card, action);
+        }
+
+        function updateCardStyle(card, action) {
+            card.classList.remove('bg-green-50', 'bg-red-50', 'ring-2', 'ring-green-400', 'ring-red-400');
+            card.classList.add('bg-white');
+
+            if (action === 'share') {
+                card.classList.add('bg-green-50', 'ring-2', 'ring-green-400');
+            } else if (action === 'delete') {
+                card.classList.add('bg-red-50', 'ring-2', 'ring-red-400');
+            }
+        }
+
+        document.getElementById('finishCurationBtn').addEventListener('click', () => {
+            const shareCount = Object.values(state).filter(s => s.status === 'share').length;
+            document.getElementById('shareCount').textContent = shareCount;
+            document.getElementById('modal').classList.remove('hidden');
+        });
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
+
+        function wipeData() {
+            const appDiv = document.getElementById('app');
+            appDiv.innerHTML = `<div class="text-center py-20 fade-in"><svg class="mx-auto h-16 w-16 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg><h1 class="mt-4 text-3xl font-bold text-gray-800">Deletion Complete</h1><p class="mt-2 text-lg text-gray-600">All of your raw data and un-shared transcripts have been permanently erased.</p><p class="mt-1 text-gray-600">Thank you for helping to protect your privacy. The researcher will now return.</p></div>`;
+            closeModal();
+        }
+
+        function togglePlay(event, cardId) {
+            event.stopPropagation();
+            const card = document.getElementById(cardId);
+            const audio = card.querySelector('audio');
+            const icon = card.querySelector('.play-pause-btn i');
+
+            if (audio.paused) {
+                // Pause all other audios before playing a new one
+                document.querySelectorAll('audio').forEach(otherAudio => {
+                    if (otherAudio !== audio && !otherAudio.paused) {
+                        otherAudio.pause();
+                        const otherCard = otherAudio.closest('.card');
+                        const otherIcon = otherCard.querySelector('.play-pause-btn i');
+                        otherIcon.classList.remove('fa-pause');
+                        otherIcon.classList.add('fa-play');
+                    }
+                });
+                audio.play();
+                icon.classList.remove('fa-play');
+                icon.classList.add('fa-pause');
+            } else {
+                audio.pause();
+                icon.classList.remove('fa-pause');
+                icon.classList.add('fa-play');
+            }
+        }
+    </script>
+</body>
+</html>
