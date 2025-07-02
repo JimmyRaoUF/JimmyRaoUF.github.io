@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Study Protocol: Passive Sensing & Privacy</title>
+    <title>Revised Study Protocol: Passive Sensing & Privacy</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,8 +16,8 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F8F7F4;
-            color: #383733;
+            background-color: #F8F7F4; /* Soft, warm off-white */
+            color: #383733; /* Dark, warm gray for text */
         }
         .nav-link {
             transition: all 0.3s ease;
@@ -31,7 +31,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background-color: #A49383;
+            background-color: #A49383; /* Muted accent color */
             transition: width 0.3s ease;
         }
         .nav-link:hover:after, .nav-link.active:after {
@@ -39,7 +39,7 @@
         }
         .section-card {
             background-color: #FFFFFF;
-            border: 1px solid #E5E2DC;
+            border: 1px solid #E5E2DC; /* Lighter border */
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -58,7 +58,7 @@
         }
         .detail-content.show {
             display: block;
-            max-height: 500px;
+            max-height: 500px; /* Increased max-height for content */
         }
         .flow-step {
             opacity: 0;
@@ -87,14 +87,15 @@
 </head>
 <body class="antialiased">
 
+    <!-- Header and Navigation -->
     <header class="bg-[#F8F7F4]/80 backdrop-blur-sm sticky top-0 z-50 border-b border-[#E5E2DC]">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <h1 class="text-xl font-bold text-[#574C41]">Privacy-First Research Protocol</h1>
+            <h1 class="text-xl font-bold text-[#574C41]">A Privacy-First Study</h1>
             <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-[#574C41]">
                 <a href="#phase1" class="nav-link">Phase 1: Onboarding</a>
                 <a href="#phase2" class="nav-link">Phase 2: Collection</a>
                 <a href="#phase3" class="nav-link">Phase 3: Curation</a>
-                <a href="#principles" class="nav-link">Core Principles</a>
+                <a href="#principles" class="nav-link">Our Principles</a>
             </div>
             <div class="md:hidden">
                 <button id="mobile-menu-button" class="text-[#574C41] focus:outline-none">
@@ -108,111 +109,112 @@
             <a href="#phase1" class="block text-center py-3 px-4 text-sm text-[#574C41] hover:bg-[#E5E2DC]">Phase 1: Onboarding</a>
             <a href="#phase2" class="block text-center py-3 px-4 text-sm text-[#574C41] hover:bg-[#E5E2DC]">Phase 2: Collection</a>
             <a href="#phase3" class="block text-center py-3 px-4 text-sm text-[#574C41] hover:bg-[#E5E2DC]">Phase 3: Curation</a>
-            <a href="#principles" class="block text-center py-3 px-4 text-sm text-[#574C41] hover:bg-[#E5E2DC]">Core Principles</a>
+            <a href="#principles" class="block text-center py-3 px-4 text-sm text-[#574C41] hover:bg-[#E5E2DC]">Our Principles</a>
         </div>
     </header>
 
     <main class="container mx-auto px-6 py-12">
+        <!-- Hero Section -->
         <section class="text-center mb-20">
-            <h2 class="text-4xl md:text-5xl font-bold text-[#383733] mb-4">Capturing Daily Life, Respectfully</h2>
+            <h2 class="text-4xl md:text-5xl font-bold text-[#383733] mb-4">How Can We Study Daily Life, Respectfully?</h2>
             <p class="text-lg text-[#574C41] max-w-3xl mx-auto">
-                This interactive application breaks down a week-long study designed to understand personal interests through passive audio capture. Explore the three phases of our participant-centric protocol, built from the ground up on a foundation of trust, agency, and an uncompromising commitment to privacy.
+                This site explains our week-long study into personal interests. We use a smartwatch to passively capture audio, but with a critical difference: our entire process is built on trust, your control, and an absolute commitment to your privacy. So, how does it work?
             </p>
         </section>
 
-        <!-- Phase 1 -->
+        <!-- Phase 1: Onboarding -->
         <section id="phase1" class="mb-20 scroll-mt-24">
             <div class="text-center mb-12">
                 <span class="text-sm font-semibold text-[#A49383]">PHASE 1</span>
-                <h3 class="text-3xl font-bold mt-2">Onboarding & The Privacy Contract</h3>
+                <h3 class="text-3xl font-bold mt-2">Onboarding & Our Privacy Contract</h3>
                 <p class="mt-4 text-[#574C41] max-w-2xl mx-auto">
-                    The study begins with an in-person session designed to establish trust and transparency. Participants are not just subjects; they are collaborators who are given full control from the very start. This phase sets the stage for the entire week.
+                    We start with an in-person session to build trust. You aren't just a subject; you're our collaborator, and we give you full control from day one. This phase sets the stage for the entire week.
                 </p>
             </div>
 
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div class="section-card p-6 rounded-xl">
-                    <h4 class="font-bold text-lg mb-2">Welcome & Introduction</h4>
-                    <p class="text-sm text-[#574C41]">Participants are welcomed and given a clear overview of the study's goals. The voluntary nature is emphasized, ensuring they feel comfortable and informed from the outset.</p>
+                    <h4 class="font-bold text-lg mb-2">Welcome & Intro</h4>
+                    <p class="text-sm text-[#574C41]">We welcome you and clearly explain the study's goals. We also emphasize that your participation is completely voluntary, ensuring you feel comfortable and informed right away.</p>
                 </div>
                 
                 <div id="privacy-contract-card" class="section-card p-6 rounded-xl bg-[#E5E2DC]/30 interactive-card">
                     <div class="flex justify-between items-start">
-                        <h4 class="font-bold text-lg mb-2">The "Privacy Contract"</h4>
+                        <h4 class="font-bold text-lg mb-2">Our "Privacy Contract"</h4>
                         <span class="text-xs font-bold text-[#A49383]">▼ Click to Expand</span>
                     </div>
-                    <p class="text-sm text-[#574C41]">More than just a consent form, this is a formal commitment to the participant's privacy, outlining four key promises.</p>
+                    <p class="text-sm text-[#574C41]">This isn't just a consent form. It's our formal promise to you, built on four key guarantees.</p>
                     <div id="privacy-contract-details" class="detail-content mt-4 border-t border-[#A49383]/30 pt-4">
                         <ul class="space-y-3 text-sm">
                             <li class="flex items-start">
                                 <span class="text-lg mr-3">✈️</span>
-                                <div><strong class="block">100% Offline Device:</strong> The smartwatch operates in airplane mode all week. Participants verify this themselves.</div>
+                                <div><strong class="block">100% Offline Device:</strong> The watch stays in airplane mode all week. You'll verify this yourself.</div>
                             </li>
                             <li class="flex items-start">
                                 <span class="text-lg mr-3">👤</span>
-                                <div><strong class="block">Participant-Only Review:</strong> Only the participant will ever review the complete raw data. The researcher never has access.</div>
+                                <div><strong class="block">You're the Only Reviewer:</strong> You—and only you—will ever review the complete raw data. We never get access.</div>
                             </li>
                             <li class="flex items-start">
                                 <span class="text-lg mr-3">🗑️</span>
-                                <div><strong class="block">Deletion by Default:</strong> All data is marked for deletion. Nothing is shared unless explicitly approved by the participant.</div>
+                                <div><strong class="block">Deletion by Default:</strong> We mark all data for deletion. We share nothing unless you explicitly approve it.</div>
                             </li>
                             <li class="flex items-start">
                                 <span class="text-lg mr-3">✅</span>
-                                <div><strong class="block">Verifiable Deletion:</strong> The participant personally initiates the permanent deletion of their raw data at the end of the study.</div>
+                                <div><strong class="block">You Delete Your Data:</strong> At the end of the study, you personally start the permanent deletion of your raw data.</div>
                             </li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="section-card p-6 rounded-xl">
-                    <h4 class="font-bold text-lg mb-2">Setup & Departure</h4>
-                    <p class="text-sm text-[#574C41]">Participants get the smartwatch and charger, are reminded to charge it daily, and complete baseline questionnaires. They are also reminded to bring all materials back for the final session.</p>
+                    <h4 class="font-bold text-lg mb-2">Setup & You're Off!</h4>
+                    <p class="text-sm text-[#574C41]">We'll give you the smartwatch and charger, remind you to charge it daily, and have you fill out a few short questionnaires. Then you're all set for the week.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Phase 2 -->
+        <!-- Phase 2: Data Collection -->
         <section id="phase2" class="mb-20 scroll-mt-24">
             <div class="text-center mb-12">
                 <span class="text-sm font-semibold text-[#A49383]">PHASE 2</span>
-                <h3 class="text-3xl font-bold mt-2">Data Collection in the Wild</h3>
+                <h3 class="text-3xl font-bold mt-2">One Week in Your Life</h3>
                  <p class="mt-4 text-[#574C41] max-w-2xl mx-auto">
-                    For one week, participants wear the smartwatch, remembering to charge it each night. The system is designed to be unobtrusive, passively capturing potential "interest moments" based on intelligent sensor triggers, not constant surveillance.
+                    For one week, you'll wear the smartwatch as you go about your life. We designed the system to be unobtrusive. It passively captures potential "interest moments" using smart triggers, not constant surveillance.
                 </p>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8 items-center">
                 <div class="space-y-6">
                     <div class="section-card p-6 rounded-xl">
-                        <h4 class="font-bold text-lg mb-2">Passive & Unobtrusive</h4>
-                        <p class="text-sm text-[#574C41]">The system works in the background. Subtle haptic cues (vibrations) provide awareness of recordings without being socially intrusive. An optional, temporary prompt on the watch allows for immediate discarding of a sensitive clip, giving participants real-time agency.</p>
+                        <h4 class="font-bold text-lg mb-2">Passive & In-the-Moment Control</h4>
+                        <p class="text-sm text-[#574C41]">The system works in the background. Subtle vibrations let you know when it's recording, and a temporary prompt on the watch lets you immediately discard any clip you don't want. You have real-time control.</p>
                     </div>
                     <div id="triggers-card" class="section-card p-6 rounded-xl interactive-card">
                         <div class="flex justify-between items-start">
-                           <h4 class="font-bold text-lg mb-2">Intelligent Sensor Triggers</h4>
+                           <h4 class="font-bold text-lg mb-2">How Does It Know When to Record?</h4>
                            <span class="text-xs font-bold text-[#A49383]">▼ Click to Learn More</span>
                         </div>
-                        <p class="text-sm text-[#574C41]">Recording is not random. It's activated by specific situations that are likely to contain engaged, interest-relevant conversation.</p>
+                        <p class="text-sm text-[#574C41]">Recording isn't random. Smart sensors activate it when you're likely in an engaged, interest-relevant conversation.</p>
                         <div id="triggers-details" class="detail-content mt-4 border-t border-[#A49383]/30 pt-4 space-y-4">
                             <div>
                                 <strong class="text-sm block">1. Context Changes</strong>
-                                <p class="text-xs text-[#574C41]">Sensors detect shifts in location or activity (e.g., leaving a dorm, sitting down in a cafe) which often precede new social interactions.</p>
+                                <p class="text-xs text-[#574C41]">The watch detects shifts in location or activity (like sitting down in a cafe) that often lead to new conversations.</p>
                             </div>
                             <div>
-                                <strong class="text-sm block">2. Gesticulation & Arousal</strong>
-                                <p class="text-xs text-[#574C41]">Detects animated hand movements and elevated heart rate—strong indicators of engaged, emotionally salient conversation.</p>
+                                <strong class="text-sm block">2. Engaged Conversation</strong>
+                                <p class="text-xs text-[#574C41]">It detects animated hand movements and elevated heart rate—strong signs of an engaging, important conversation.</p>
                             </div>
                             <div>
-                                <strong class="text-sm block">3. Focused Individual Activity</strong>
-                                <p class="text-xs text-[#574C41]">Captures moments of "thinking aloud" during focused tasks (e.g., studying, hobbies), offering a window into cognitive engagement.</p>
+                                <strong class="text-sm block">3. Focused "Thinking Aloud"</strong>
+                                <p class="text-xs text-[#574C41]">It also captures moments when you might be "thinking aloud" during a focused task, like studying or a hobby.</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="section-card p-6 rounded-xl">
-                     <h4 class="font-bold text-lg mb-2 text-center">Context: Student Time Use</h4>
-                     <p class="text-sm text-center text-[#574C41] mb-4">The study targets college students because their daily lives are rich with the social interactions where interests are expressed. This chart, based on American Time Use Survey data, illustrates the significant time young adults dedicate to social activities.</p>
+                     <h4 class="font-bold text-lg mb-2 text-center">Why College Students?</h4>
+                     <p class="text-sm text-center text-[#574C41] mb-4">We focus on college students because their daily lives are full of the social interactions where interests get expressed. This chart shows just how much time young adults spend in social and leisure activities.</p>
                      <div class="chart-container">
                         <canvas id="timeUseChart"></canvas>
                      </div>
@@ -220,44 +222,44 @@
             </div>
         </section>
 
-        <!-- Phase 3 -->
+        <!-- Phase 3: Curation -->
         <section id="phase3" class="mb-20 scroll-mt-24">
             <div class="text-center mb-12">
                 <span class="text-sm font-semibold text-[#A49383]">PHASE 3</span>
-                <h3 class="text-3xl font-bold mt-2">The "Locked-Box" Curation Session</h3>
+                <h3 class="text-3xl font-bold mt-2">The "Locked-Box" Curation</h3>
                 <p class="mt-4 text-[#574C41] max-w-2xl mx-auto">
-                    The final session is where the privacy promises are fulfilled. After returning the watch and charger, participants enter a secure, offline environment to review their data and become the sole curators of what is shared.
+                    In the final session, we make good on our privacy promises. You'll enter a secure, offline environment to review your data and become the sole curator of what you share with us.
                 </p>
             </div>
 
             <div class="section-card p-8 rounded-xl">
-                <h4 class="font-bold text-xl mb-6 text-center">The Participant-Controlled Data Flow</h4>
+                <h4 class="font-bold text-xl mb-6 text-center">Your Controlled Data Flow</h4>
                 <div class="relative w-full">
                     <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-start text-center">
                         <div class="flow-step p-4">
                             <div class="text-4xl mb-2">⌚</div>
-                            <h5 class="font-bold">1. Collection</h5>
-                            <p class="text-xs text-[#574C41]">Encrypted data is stored locally on the offline watch.</p>
+                            <h5 class="font-bold">1. Collect</h5>
+                            <p class="text-xs text-[#574C41]">Your encrypted data stays on the offline watch.</p>
                         </div>
                         <div class="flow-step p-4" style="transition-delay: 0.2s;">
                             <div class="text-4xl mb-2">→</div>
                             <h5 class="font-bold">2. Transfer</h5>
-                            <p class="text-xs text-[#574C41]">Participant physically connects watch to transfer data.</p>
+                            <p class="text-xs text-[#574C41]">You physically connect the watch to transfer the data.</p>
                         </div>
                         <div class="flow-step p-4" style="transition-delay: 0.4s;">
                             <div class="text-4xl mb-2">💻</div>
-                            <h5 class="font-bold">3. Curation</h5>
-                            <p class="text-xs text-[#574C41]">In private, on an offline station, participant reviews transcripts and approves clips to share.</p>
+                            <h5 class="font-bold">3. Curate</h5>
+                            <p class="text-xs text-[#574C41]">In private, on an offline station, you review transcripts and approve clips to share.</p>
                         </div>
                         <div class="flow-step p-4" style="transition-delay: 0.6s;">
                              <div class="text-4xl mb-2">→</div>
-                            <h5 class="font-bold">4. Deletion</h5>
-                            <p class="text-xs text-[#574C41]">Participant initiates permanent deletion of all raw data.</p>
+                            <h5 class="font-bold">4. Delete</h5>
+                            <p class="text-xs text-[#574C41]">You start the permanent deletion of all raw data and un-shared clips.</p>
                         </div>
                         <div class="flow-step p-4" style="transition-delay: 0.8s;">
                             <div class="text-4xl mb-2">📊</div>
-                            <h5 class="font-bold">5. Analysis</h5>
-                            <p class="text-xs text-[#574C41]">Researcher only ever sees the small, anonymized set of text approved by the participant.</p>
+                            <h5 class="font-bold">5. Analyze</h5>
+                            <p class="text-xs text-[#574C41]">We only ever see the small, anonymous text package you approved.</p>
                         </div>
                     </div>
                 </div>
@@ -268,26 +270,26 @@
         <section id="principles" class="scroll-mt-24">
             <div class="text-center mb-12">
                  <span class="text-sm font-semibold text-[#A49383]">CONCLUSION</span>
-                <h3 class="text-3xl font-bold mt-2">Core Principles of the Protocol</h3>
+                <h3 class="text-3xl font-bold mt-2">Our Core Principles</h3>
                 <p class="mt-4 text-[#574C41] max-w-2xl mx-auto">
-                   This entire methodology is built on three pillars that work together to create an ethical, effective, and user-centric research process.
+                   This whole method rests on three pillars that create an ethical and effective research process.
                 </p>
             </div>
             <div class="grid md:grid-cols-3 gap-8 text-center">
                  <div class="section-card p-6 rounded-xl">
                     <div class="text-3xl mb-3">🛡️</div>
-                    <h4 class="font-bold text-lg mb-2">Absolute Privacy Control</h4>
-                    <p class="text-sm text-[#574C41]">The protocol inverts the typical data collection model. By giving participants ultimate control and making deletion the default, we build a foundation of trust essential for collecting authentic data.</p>
+                    <h4 class="font-bold text-lg mb-2">Absolute Privacy</h4>
+                    <p class="text-sm text-[#574C41]">Our protocol flips the typical data collection model. By giving you ultimate control and making deletion the default, we build the trust that's essential for collecting authentic data.</p>
                 </div>
                  <div class="section-card p-6 rounded-xl">
                     <div class="text-3xl mb-3">🧘</div>
-                    <h4 class="font-bold text-lg mb-2">Minimum Effort & Burden</h4>
-                    <p class="text-sm text-[#574C41]">From passive collection to AI-assisted text-first review, the process is designed to be as seamless and low-effort as possible, respecting the participant's time and cognitive energy.</p>
+                    <h4 class="font-bold text-lg mb-2">Minimum Effort</h4>
+                    <p class="text-sm text-[#574C41]">From passive collection to AI-assisted review, we've made the process as seamless as possible. We respect your time and energy.</p>
                 </div>
                  <div class="section-card p-6 rounded-xl">
                     <div class="text-3xl mb-3">🤝</div>
-                    <h4 class="font-bold text-lg mb-2">Participant as Collaborator</h4>
-                    <p class="text-sm text-[#574C41]">Participants are empowered agents in the research process. Their active role in curation and final deletion makes them partners in the responsible creation of knowledge.</p>
+                    <h4 class="font-bold text-lg mb-2">You're Our Partner</h4>
+                    <p class="text-sm text-[#574C41]">You're an empowered agent in this process. Your active role in curating and deleting data makes you a partner in creating knowledge responsibly.</p>
                 </div>
             </div>
         </section>
@@ -316,15 +318,19 @@
             // Interactive Cards
             const privacyCard = document.getElementById('privacy-contract-card');
             const privacyDetails = document.getElementById('privacy-contract-details');
-            privacyCard.addEventListener('click', () => {
-                privacyDetails.classList.toggle('show');
-            });
+            if (privacyCard) {
+                privacyCard.addEventListener('click', () => {
+                    privacyDetails.classList.toggle('show');
+                });
+            }
 
             const triggersCard = document.getElementById('triggers-card');
             const triggersDetails = document.getElementById('triggers-details');
-            triggersCard.addEventListener('click', () => {
-                triggersDetails.classList.toggle('show');
-            });
+            if (triggersCard) {
+                triggersCard.addEventListener('click', () => {
+                    triggersDetails.classList.toggle('show');
+                });
+            }
 
             // Nav link active state on scroll
             const sections = document.querySelectorAll('section');
